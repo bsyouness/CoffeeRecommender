@@ -1,3 +1,6 @@
+""" This script summarizes and formats the data in a text file
+"""
+
 import pandas as pd
 import parse
 
@@ -5,9 +8,18 @@ def addIndent(string):
     split_string = string.split('\n')
     return '\n'.join([split_string[0]] + map(lambda x: '   ' + x, split_string[1:]))
 
-def summarize(df):
-    ratings_by_userid = df.groupby('userid')
-    ratings_by_coffee_name = df.groupby('coffee_name')
+def summarize(f):
+    """Prints a summary of the file passed.
+
+    Args: 
+        f: File object
+
+    Return:
+        None
+    """
+    ratings = pd.read_table(f, names = ['userid', 'coffee_name', 'rating'])
+    ratings_by_userid = ratings.groupby('userid')
+    ratings_by_coffee_name = ratings.groupby('coffee_name')
     user_stats = 'There is a total of {} users'.format(len(ratings_by_userid))
     coffee_stats = 'There is a total of {} coffee names'.format(len(ratings_by_coffee_name))
     

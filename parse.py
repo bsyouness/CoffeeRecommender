@@ -1,3 +1,7 @@
+""" This module parses coffee names to find the following attributes: decaf, organic, fair trade, 
+their country and a descriptive adjective.
+"""
+
 COUNTRIES = {
     'BALINESE':     'BALI',
     'BOLIVIAN':     'BOLIVIA',
