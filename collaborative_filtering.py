@@ -17,6 +17,9 @@ def pearsonCorrelation(p1_data, p2_data, p1_items, p2_items):
   The rating data is in the form of a pandas dataframe with two columns; the first columns is the keys 
   of the dataframe, the second columns contains the ratings for each item and is named `rating`.
 
+  Note that p*_items could be derived from p*_data, but to avoid redundant computation, I pass 
+  the two.
+
   Args:
     p1_data: Pandas dataframe containing the rating data for the first person
     p2_data: Pandas dataframe containing the rating data for the second person
@@ -24,17 +27,14 @@ def pearsonCorrelation(p1_data, p2_data, p1_items, p2_items):
     p2_items: Pandas series containing the items rated by the second person  
 
   Returns:
-    The Pearson correlation value for the pair of data inputted. 
+    The Pearson correlation value for the pair of input data. 
   """
 
-  # Checking for number of ratings in common
-  if p1_items == p2_items:
-    both_rated = p1_items
-  else:
-    both_rated = []
-    for item in p1_items:
-      if item in p2_items:
-        both_rated.append(item)
+  # Checking for number of coffees in common
+  both_rated = []
+  for item in p1_items:
+    if item in p2_items:
+      both_rated.append(item)
   n = len(both_rated) 
   
   # If the two people have no ratings in common

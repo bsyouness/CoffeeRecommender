@@ -1,49 +1,54 @@
 """ This script allows to:
 1) Parse names based on a certain structure:
 ```
-$ python coffee.py parse "Organic Decaf Mandeheling Bolivian"                    
-
-Decaf      True
-Organic    True
-Fair trade False
-Adjective  Mandheling
-Country    Bolivia
+$ python coffee.py parse "Organic Fair Trade Sweet and Sour Indian"
+Decaf                    False
+Organic                   True
+Fair Trade                True
+Country                  India
+Adjective       Sweet And Sour
 ```
 
 2) Summarize data in a text file:
 ```
-$ python coffee.py summarize coffee_ratings.txt
+$ python coffee.py summarize "coffee_ratings.txt" 
+There are a total of 200 users
 
-Total people 140
-Total coffee types 50
-Decaf               
-  True 20               
-  False 30
-Organic             
-  True 10               
-  False 40
-Fair trade              
-  True 5                
-  False 45
-Adjective               
-  Bright 15             
-  Supremo 35
-Country             
-  India 10
-  Peru 40
+There are a total of 189 coffee names
+
+Decaf
+   False     89
+   True     100
+
+Fair Trade
+   False    110
+   True      79
+
+Organic
+   False     89
+   True     100
+
+Adjective
+   Aa                 14
+   Black Satin        13
+   ...
+
+Country
+   Bali                  16
+   Bolivia               15
+   ...
 ```
 
 3) Recommend 3 new items based on user data from a text file:
 ```
-$ python coffee.py recommend coffee_ratings.txt
+$ python coffee.py recommend "coffee_ratings.txt" 
+uid coffee name                                       inferred rating
 
-userid coffee name inferred rating
-9 Decaf Black Satin Balinese 4
-9 Black Satin Balinese 4
-9 Organic Longberry Mexican 4
-10 Honey Burst Domincan 5
-10 Organic Fair Trade AA Guatemalan 4
-10 Organic Fair Trade Decaf Swiss Water Malian 4
+
+0   daysiss Water Salvadorean                            4
+0   Organic Fair Trade Decaf Black Satin Bolivian        3
+0   Fair Trade Honey Burst Peruvian                      3
+...
 ```
 """
 
@@ -54,7 +59,7 @@ import summarize
 import collaborative_filtering as cf
 
 class Coffee(object):
-    def __init__(self, name='Fair Trade Decaf Black Satin Panamanian', parsed_name={}):
+    def __init__(self, name, parsed_name={}):
         self.name = name
         self.parsed_name = parsed_name
 
@@ -62,7 +67,7 @@ class Coffee(object):
         [print('{:<15}{:>15}'.format(key, value)) for (key, value) in self.parsed_name.items()]
     
     @classmethod
-    def fromname(cls, name='Fair Trade Decaf Black Satin Panamanian'):
+    def fromname(cls, name):
         return cls(name, parse.parse(name))
 
 
